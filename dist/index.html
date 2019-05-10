@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/waifu.css">
+    <script src="assets/jquery-3.4.1.js"></script>
+    <script src="assets/jquery-ui.min.js"></script>
+    <script src="assets/waifu-tips.js"></script>
+    <script src="assets/live2d.js"></script>
+</head>
+<body id="nv_forum" class="pg_viewthread" onkeydown="if(event.keyCode==27) return false;" style="height: 700px; margin: 0 auto;">
+     <div class="waifu">
+        <div class="waifu-tips"></div>
+        <canvas id="live2d" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+</body>
+<script>
+	live2d_settings['modelId'] = 1;
+    live2d_settings['modelTexturesId'] = 87;
+	initModel("assets/waifu-tips.json");
+	(function() {
+			var coreSocialistValues = ["富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善"],
+				index = Math.floor(Math.random() * coreSocialistValues.length);
+			document.body.addEventListener('click', function(e) {
+				if (e.target.tagName == 'A') {
+					return;
+				}
+				var x = e.pageX,
+					y = e.pageY,
+					span = document.createElement('span');
+				span.textContent = coreSocialistValues[index];
+				index = (index + 1) % coreSocialistValues.length;
+				span.style.cssText = ['z-index: 9999999; position: absolute; font-weight: bold; top: ', y - 20,
+					'px; left: ', x, 'px;'
+				].join('');
+				// var num = generateMixed(6);
+				span.style.color = '#'+Math.floor(Math.random()*0xffffff).toString(16)
+				document.body.appendChild(span);
+				animate(span);
+			});
+// 			// 文字的随机颜色
+// 			var chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+// 
+// 			function generateMixed(n) {
+// 				var res = "";
+// 				for (var i = 0; i < n; i++) {
+// 					var id = Math.ceil(Math.random() * 16);
+// 					res += chars[id];
+// 				}
+// 				return res;
+// 			}
+
+			function bg1(){
+				 return '#'+Math.floor(Math.random()*256).toString(10);
+			 }
+			 function bg2(){
+				 return '#'+Math.floor(Math.random()*0xffffff).toString(16);
+			 }
+			 function bg3(){
+				 var r=Math.floor(Math.random()*256);
+				 var g=Math.floor(Math.random()*256);
+				 var b=Math.floor(Math.random()*256);
+				 return "rgb("+r+','+g+','+b+")";//所有方法的拼接都可以用ES6新特性`其他字符串{$变量名}`替换
+			 }
+
+			function animate(el) {
+				var i = 0,
+					top = parseInt(el.style.top),
+					id = setInterval(frame, 16.7);
+
+				function frame() {
+					if (i > 180) {
+						clearInterval(id);
+						el.parentNode.removeChild(el);
+					} else {
+						i += 2;
+						el.style.top = top - i + 'px';
+						// el.style.opacity = (180 - i) / 180;
+						 el.style.opacity ='0.8';
+					}
+				}
+			}
+		}());
+</script>
+</html>
